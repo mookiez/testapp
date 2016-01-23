@@ -1,0 +1,420 @@
+root 
+{
+	display: block;
+}
+
+h1{
+
+}
+
+a
+{
+	text-decoration: none;
+	color: white;
+}
+
+    *:active {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: rgba(0,0,0,0);
+    }
+
+.invisible
+{
+	visibility:hidden;
+	display:none !important;
+}
+
+#winnings
+{
+	color:#ffffff;
+	font-weight:bold;
+	font-size:14px;
+	text-align:left;
+}
+
+#logo
+{
+	font-size:20px;
+	color: #87CFEE;
+	font-weight: 900;
+}
+
+
+body 
+{
+/*	font-family:"Lucida Grande", tahoma, verdana, arial, sans-serif; */
+ 	color: #ffffff;    
+	font-family: Lato, sans-serif;
+	font-size: 20px;
+}
+
+#topdiv
+{
+display: block;
+font-size: 25px;
+font-weight: 900;
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+padding-bottom: 10px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 25px;
+text-align: left;
+text-rendering: optimizelegibility;
+background-color: #0576A7;
+color: #ffffff;
+
+}
+
+#topdiv small{
+    color: rgba(52, 73, 94, 0.3);
+}
+
+#gamenav
+{
+	position: absolute; bottom: 0px; width:100%; display: none;
+}
+
+.cooldivbro
+{
+
+	background-color:#ffffff;
+	/*background-color:#e8e8e8; width: 100%; height:100%; padding-top: 0px;
+	background: url('greenwood.jpg') no-repeat center center fixed; */
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+
+
+.red1
+{
+	background-color: rgba(192, 57, 43, 1);
+}
+/*
+.red1:hover
+{
+	background-color: rgba(192, 57, 43, 0.9);
+}
+*/
+.red2
+{
+	background-color: rgba(231, 76, 60, 1);
+}
+/*
+.red2:hover
+{
+	background-color: rgba(231, 76, 60, 0.9);
+}
+*/
+.yellow1
+{
+	background-color: rgba(243, 156, 18, 1);	
+}
+/*
+.yellow1:hover
+{
+	background-color: rgba(243, 156, 18, 0.9);	
+}
+*/
+.yellow2
+{
+	background-color: rgba(241, 196, 15, 1);	
+}
+/*
+.yellow2:hover
+{
+	background-color: rgba(241, 196, 15, 0.9);	
+}
+*/
+
+.blue1
+{
+	background-color: rgba(41, 128, 185, 1);	
+}
+/*
+.blue1:hover
+{
+	background-color: rgba(41, 128, 185, 0.9);	
+}
+*/
+.blue2
+{
+	background-color: rgba(52, 152, 219, 1);	
+}
+/*
+.blue2:hover
+{
+	background-color: rgba(52, 152, 219, 0.9);	
+}
+*/
+
+.green1
+{
+	background-color: rgba(39, 174, 96, 1);	
+}
+/*
+.green1:hover
+{
+	background-color: rgba(39, 174, 96, 0.9);	
+}
+*/
+.green2
+{
+	background-color: rgba(46, 204, 113, 1);	
+}
+/*
+.green2:hover
+{
+	background-color: rgba(46, 204, 113, 0.9);	
+}
+*/
+
+.purple1
+{
+	background-color: rgba(142, 68, 173, 1);	
+}
+/*
+.purple1:hover
+{
+	background-color: rgba(142, 68, 173, 0.9);	
+}
+*/
+.purple2
+{
+	background-color: rgba(155, 89, 182, 1);	
+}
+/*
+.purple2:hover
+{
+	background-color: rgba(155, 89, 182, 0.9);	
+}
+*/
+
+
+.moneytd
+{
+	font-size:9pt;
+}
+
+#questionsdiv
+{
+	text-align: left;
+}
+
+.correctanswerbutton
+{
+background-color: #2ECC71;	
+border-radius: 6px;
+box-shadow: none;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: block;
+
+height: 40px;
+line-height: 40px;	
+text-align: left;
+padding: 9px;
+}
+
+.wronganswerbutton
+{
+	background-color: #E74C3C;	
+border-radius: 6px;
+box-shadow: none;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: block;
+
+height: 40px;
+line-height: 40px;	
+text-align: left;
+padding: 9px;	
+	
+}
+
+.exitbutton
+{
+background-color: #34aadc;
+border-radius: 6px;
+box-shadow: none;
+color: #ffffff;
+cursor: pointer;
+text-align:left;
+padding: 6px;
+width:60px;
+float:right;
+font-size:14px;
+}
+
+.menubutton
+{
+background-color: #34aadc;
+border-radius: 6px;
+box-shadow: none;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: block;
+height: 40px;
+line-height: 40px;
+text-align:left;
+}
+/*
+.menubutton:hover
+{	
+	background-color:#48C9B0;
+	color: #ffffff;
+
+}
+*/
+.menu2
+{
+background-color: #ffffff;
+color: #34aadc;
+border: 1px solid #34aadc;
+}
+
+
+.highscore
+{
+	text-align: center;
+}
+
+.rulesofthegame
+{
+	background-color: #FF9F33;
+    border-radius: 6px 6px 6px 6px;	
+	text-align:left;
+	font-size: 16px;
+}
+
+#dropoutdiv
+{
+	text-align:right;
+}
+
+/*
+#dropoutdiv:hover
+{
+	background-color: #48C9B0;	
+}
+*/
+.leavebutton
+{
+background-color: #34aadc;
+border-radius: 6px;
+box-shadow: none;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: block;
+height: 40px;
+line-height: 40px;
+padding: 20px; margin: 39px; 
+}
+
+.answerbutton
+{
+-moz-transition: all 0.25s ease 0s;
+background-color: #7f8c8d;
+border-radius: 6px;
+box-shadow: none;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: block;
+
+height: 40px;
+line-height: 40px;	
+text-align: left;
+padding: 9px;
+
+}
+
+.button
+{
+border-radius: 6px;
+box-shadow: none;
+color: rgb(255, 255, 255);
+cursor: pointer;
+display: block;
+text-align: left;
+padding: 5px;
+font-size: 20px;
+	
+/*	
+	border-radius: 15px;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	text-align: center;
+	font-size: 10pt;
+	overflow:hidden;            
+	border: 2px #fff solid;
+	text-shadow: 1px 1px 5px #000;
+*/
+}
+/*
+.button:hover
+{
+//	border:2px solid #888;
+}
+*/
+.level
+{
+    display: block;
+    font-size: 14px;
+    font-weight: 200;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    text-align: center;
+    text-rendering: optimizelegibility;
+    background-color: #FF9F33;
+    color: #ffffff;
+
+}
+.question
+{
+	color: #34495E;
+	padding:10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.result
+{
+	margin-top: 5px;
+	font-size: 10.5pt;
+	padding: 5px;
+}
+
+.menudiv
+{
+	font-size: 16px;
+	color: white;
+}
+
+/*
+.answerbutton:hover
+{
+	background-color:#95a5a6;
+
+}
+*/
+#quizContent
+{
+	margin-top:10px; margin-left: 10px; margin-right: 10px;
+	font-size: 10.5pt;
+
+}
+

@@ -1,0 +1,356 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+ <head>
+	<title>The Million Dollar Emoji Quiz</title>
+      <link rel="stylesheet" type="text/css" href="quizStyle.css" />
+      <link rel="stylesheet" type="text/css" href="fontello.css" />      
+      <script type="text/javascript" src="quizContents.js"></script>
+      <script type="text/javascript" src="jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('body div').slideDown();
+        });
+    </script>      
+      
+      <script type="text/javascript">
+			var totalWinnings = 0;
+			var guaranteedWinnings = 0;
+			var level=0;
+			var blinksLeft=7
+			var winnings = new Array("0","1,000","5,000","10,000","25,000","50,000","100,000","175,000","300,000","500,000","1,000,000");
+			var finished;
+			var db = openDatabase('5thgrader', '1.0', 'Test DB', 2 * 1024 * 1024);
+			db.transaction(function (tx) {
+   				tx.executeSql('CREATE TABLE IF NOT EXISTS highscores3 (score INT)');
+			});      
+
+			var rtime = new Date(1, 1, 2000, 12,00,00);
+			var timeout = false;
+			var delta = 200;
+			
+			$(window).resize(function() {
+    			rtime = new Date();
+    			if (timeout === false) {
+        			timeout = true;
+        			setTimeout(resizeend, delta);
+    			}
+			});
+			
+			var w_width;
+			var w_height;
+
+			function resizeend() {
+    			if (new Date() - rtime < delta) {
+        			setTimeout(resizeend, delta);
+    			} else {
+        			timeout = false;
+					sizeStuff();
+    			}               
+			}
+
+			function sizeStuff()
+			{
+				w_width = $(window).outerWidth();
+				w_height = $(window).outerHeight();
+	
+				var image_height = Math.round(w_height/7.5);
+				var menu_padding = Math.round(w_height/30);
+				var menu_margin = Math.round(w_height/15);
+	
+				$(".menubutton").css("padding",menu_padding);
+				$(".menubutton").css("margin",menu_margin);
+	
+			//	$(".mainimage").css("height",image_height);
+			//	$(".mainimage").css("width",w_width);
+	
+				var subject_height = Math.round(w_height/11);
+				var subject_padding = Math.round(w_height/80);
+				var line_height = Math.round(subject_height/2);
+	
+				$(".button").css("height",subject_height);
+				$(".button").css("margin",subject_padding);
+				$(".button").css("line-height",($(".button").css("height")));
+		
+				var bottom_height = Math.round(w_height/8);
+				$(".menudiv").css("height",bottom_height);
+
+				var answer_padding = Math.round(w_height/55);
+				var answer_margin = Math.round(w_height/30);
+
+				$(".answerbutton").css("padding",answer_padding);
+				$(".answerbutton").css("margin",answer_margin);
+				$(".correctanswerbutton").css("padding",answer_padding);
+				$(".correctanswerbutton").css("margin",answer_margin);
+				$(".wronganswerbutton").css("padding",answer_padding);
+				$(".wronganswerbutton").css("margin",answer_margin);
+	
+				var rog_margin = Math.round(w_height/12);
+				var rog_padding = Math.round(w_height/20);
+	
+				$(".rulesofthegame").css("padding",rog_padding);
+				$(".rulesofthegame").css("margin",rog_margin);
+			}
+
+		</script>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  
+  <body leftmargin="0px" topmargin="0px" rightmargin="0px">
+ 
+	<div class="cooldivbro">
+		<div id="topdiv">
+        <table cellspacing="0" cellpadding="0" width="100%"><tr><td><center><div id="logo">MILLION DOLLAR EMOJI QUIZ</div></center></td></tr></table>
+        <!--<img src="mdquiz.jpg" class="mainimage" />-->
+        </div>
+		<div id="questionsdiv"></div>
+		<p />
+        <div id="gamenav"></div>
+	</div>
+       
+	<script type="text/javascript">
+
+		function isElementinArray(element, parentArray) {
+    		var tobeReturned = false;
+    		var j =0;
+    		for (j=0;j<parentArray.length;j++) {
+            	if (parentArray[j]==element)
+            	{
+                	tobeReturned=true;
+            	}
+        	}
+    		return tobeReturned;
+		}
+
+		var selectedQuestions;
+		var auto = 0;
+
+		function upgrade()
+		{
+    		document.getElementById('questionsdiv').innerHTML = "<div class='rulesofthegame'><b><span style='font-size:25px'>How to Play</span></b><p />Guess the Emoji and each correct answer wins you money. If you make $25,000 - that money becomes guaranteed. Otherwise, you lose everything with one wrong answer.<p>You can drop out at any time to keep your earnings. If you answer all questions, you will win one million dollars. Good luck with the Million Dollar Emoji Quiz!</div><div class=\"menubutton\" onClick=\"createMainMenu()\"><i class=\"icon-left-open\"></i> Return to Menu</div>";
+			sizeStuff();
+		}
+ 
+		function createMainMenu()
+		{
+			totalWinnings = 0;
+    		guaranteedWinnings = 0;
+    		level = 0;
+    		var mainmenuHTML;
+    		mainmenuHTML="<p /><br /><div class=\"menubutton\" onclick=\"startQuiz()\"><i class=\"icon-globe\"></i> Australian cities</div><div class=\"menubutton menu2\" onclick=\"upgrade()\"><i class=\"icon-help-circled\"></i> How To Play</div><div class=\"menubutton menu2\" onclick=\"getHighScores()\"><i class=\"icon-award\"></i> Your Best Score</div>";
+    		document.getElementById('questionsdiv').innerHTML=mainmenuHTML;
+			sizeStuff();
+		}
+
+		function dropOut()
+		{
+    		guaranteedWinnings = totalWinnings;
+			var winningsInt = parseInt(guaranteedWinnings.toString().replace(/,/g,''));
+			db.transaction(function (tx) {
+   				tx.executeSql('CREATE TABLE IF NOT EXISTS highscores3 (score INT)');
+   				tx.executeSql('INSERT INTO highscores3 (score) VALUES (?)',[winningsInt]);
+			});
+			window.setTimeout(leaveQuiz,100)
+		}
+
+		function leaveQuiz()
+		{
+    		blinksLeft=7;
+			document.getElementById('gamenav').style.display = "none";
+			document.getElementById('questionsdiv').innerHTML="<p /><p /><div class='rulesofthegame'><b><span style='font-size:25px'>You leave the game with total winnings of:<p />$"+guaranteedWinnings+"</span></div><p /><div class=\"menubutton\" onClick=\"createMainMenu()\"><i class=\"icon-left-open\"></i> Return to Menu</div>"
+    		document.getElementById('gamenav').innerHTML="";
+			sizeStuff();
+			document.getElementById('topdiv').innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td width=\"100%\"><center><div id=\"logo\">MILLION DOLLAR EMOJI QUIZ</div></center></td></tr></table>";
+    		//setTimeout(createMainMenu,4000);
+		}
+
+		function startQuiz()
+		{
+    		selectedQuestions = new Array();
+    		finished = new Array();
+    		var i=0;
+ 			varmin = new Array( 0, 6,12,17,22,28,35,44,53,61);
+    		varmax = new Array( 6,12,17,22,28,35,44,53,61,68); 
+
+			for (i=0;i<10;i++)
+    		{
+        		var randomNumber;
+        		//randomNumber = Math.floor(Math.random()*questions.length);
+				randomNumber = Math.floor(Math.random() * (varmax[i] - varmin[i])) + varmin[i];
+        		while (isElementinArray(randomNumber, selectedQuestions))
+        		{
+            		//randomNumber = Math.floor(Math.random()*questions.length);
+					randomNumber = Math.floor(Math.random() * (varmax[i] - varmin[i])) + varmin[i];
+        		}
+        		selectedQuestions.push(randomNumber);
+    		}
+			document.getElementById('gamenav').style.display = "inline";
+			generateQuiz();
+		}
+		
+		function generateQuiz()
+		{
+ 			blinksLeft=7;
+    		var returnHTML;
+    		var classes = new Array("red1","red2","yellow1","yellow2","green1","green2","blue1","blue2","purple1","purple2");
+    		returnHTML = "<table width=\"100%\" style=\"padding-left:5px;padding-right:5px\"><tr><td>";
+    		var j = 0;
+    		for (j=0;j<10;j++)
+        	{
+            	var visibility = "";
+            	if (isElementinArray(j, finished))
+                {
+                    visibility=" invisible";
+                }
+            	var selectedQid = selectedQuestions[j];
+            	var classNo = Math.floor(j/2);
+            	returnHTML = returnHTML + "<div class=\"button "+classes[j]+visibility+"\" id=\"button"+j+"\" onclick=\"showQuestion("+j+")\">"+category[selectedQid]+"</div>";
+				
+        	}
+    		returnHTML = returnHTML + "</td></tr></table>";
+ 			document.getElementById('questionsdiv').innerHTML = returnHTML;
+			document.getElementById('topdiv').innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td width=\"33%\" class=\"\"><div id=\"winnings\"><center>Winnings: <br /><b>$"+totalWinnings+"</b></center></div></td><td width=\"34%\"><div id=\"winnings\"><center>Guaranteed: <br/><b>$"+guaranteedWinnings+"</b></center></div></td><td width=\"33%\" id=\"dropoutdiv\" class=\"\"><div class=\"exitbutton\" onclick=\"dropOut()\"><i class=\"icon-logout-1\"></i> Quit</div></td></tr></table>";
+			sizeStuff();
+			showQuestion(level);
+		}
+
+        function showQuestion(elementNo)
+        {
+            questionNo = selectedQuestions[elementNo];
+            var returnHTML;
+
+            returnHTML = "<div class=level >"+category[questionNo]+"</div>";
+
+            returnHTML = returnHTML +"<div class=question >";
+
+            var j=0;
+            for (j=0;j<questions[questionNo].length;j++)
+			{
+            	returnHTML = returnHTML + "<img src='img/"+questions[questionNo][j]+"' height=72 width=72> ";
+        	}
+            returnHTML = returnHTML + "</div>";
+            var k=0;
+            for (k=0;k<4;k++)
+			{
+               	returnHTML = returnHTML + "<div class=\"answerbutton\" id=\"answer"+k+"\" onClick=\"answerQuestion("+elementNo+","+k+")\">"+answers[questionNo][k]+"</div>";
+            }
+            document.getElementById('questionsdiv').innerHTML=returnHTML;
+			sizeStuff();
+            
+        }
+       
+		function numberFormat(nStr)
+		{
+  			nStr += '';
+  			x = nStr.split('.');
+  			x1 = x[0];
+  			x2 = x.length > 1 ? '.' + x[1] : '';
+  			var rgx = /(\d+)(\d{3})/;
+  			while (rgx.test(x1))
+    			x1 = x1.replace(rgx, '$1' + ',' + '$2');
+  			return x1 + x2;
+		}
+
+		function donothing()
+		{
+    		//
+		}
+        
+		function getHighScores()
+        {
+			var highscoreHTML="<p /><p /><div class='rulesofthegame'><b><span style='font-size:25px'>Your Best Score is:<p />$";			
+            db.transaction(function (tx)
+        	{
+  				tx.executeSql('SELECT * FROM highscores3 ORDER BY score desc LIMIT 0,5', [], function (tx, results) {
+   					var len = results.rows.length, i;
+					if (len==0)
+					{
+						highscoreHTML += 0;
+					}
+					else
+					{
+   						for (i = 0; i < 1; i++){
+							highscoreHTML += numberFormat(results.rows.item(i).score);
+   						}
+					}
+   					highscoreHTML +="</span></div><p /><div class=\"menubutton\" onClick=\"createMainMenu()\"><i class=\"icon-left-open\"></i> Return to Menu</div>";
+					document.getElementById('questionsdiv').innerHTML=highscoreHTML;
+					sizeStuff();
+ 				}, null);
+ 			});
+			//window.setTimeout(createMainMenu,3000)
+			
+        }
+
+
+        function answerQuestion(elementNo,answerNo)
+        {
+            questionNo = selectedQuestions[elementNo];
+			var correctDiv = "answer" + correct[questionNo];
+            document.getElementById('answer0').onclick="donothing()";
+            document.getElementById('answer1').onclick="donothing()";
+            document.getElementById('answer2').onclick="donothing()";
+            document.getElementById('answer3').onclick="donothing()";
+            if (answerNo==correct[questionNo])
+            {
+				finished.push(elementNo);
+                level++;
+				totalWinnings = winnings[level];
+				auto++;
+                if (level==4)
+                {
+					guaranteedWinnings = totalWinnings;
+                }
+                    updateWinnings();
+                    blinkButton(correctDiv);
+				if (level==10)
+                {
+					window.setTimeout(dropOut,4100);
+				}
+				else
+				{
+                    window.setTimeout(generateQuiz,4100)
+				}
+			}
+			else
+			{
+				var wrongDiv = "answer" + answerNo;
+				document.getElementById(wrongDiv).className = "wronganswerbutton";
+				blinkButton(correctDiv);
+
+				var winningsInt = parseInt(guaranteedWinnings.toString().replace(/,/g,''));
+				db.transaction(function (tx) {
+   					tx.executeSql('CREATE TABLE IF NOT EXISTS highscores3 (score INT)');
+   					tx.executeSql('INSERT INTO highscores3 (score) VALUES (?)',[winningsInt]);
+				});
+                window.setTimeout(leaveQuiz,4100);
+			}
+        }
+        
+        function blinkButton(buttonId)
+        {
+            if (blinksLeft>0)
+            {
+            	var className = document.getElementById(buttonId).className;
+            	if (className=="answerbutton")
+                {
+                    document.getElementById(buttonId).className="correctanswerbutton";
+                }
+                else if (className=="correctanswerbutton")
+                {
+					document.getElementById(buttonId).className="answerbutton";
+				}
+                blinksLeft--;
+               	window.setTimeout(blinkButton,500,buttonId);
+    		}
+    	}
+
+		function updateWinnings()
+		{
+    		document.getElementById('winnings').innerHTML = "<center>Winnings: <br /><b>$"+totalWinnings+"</b></center>";
+		}
+
+		createMainMenu();
+	</script>
+  </body>
+</html>
